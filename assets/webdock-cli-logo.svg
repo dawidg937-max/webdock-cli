@@ -1,0 +1,30 @@
+<svg width="400" height="60" viewBox="0 0 400 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define the dark background -->
+  <rect width="100%" height="100%" fill="#1a1a1a" />
+
+  <!-- Define styles for the text and blinking cursor animation -->
+  <style>
+    .text {
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-size: 40px;
+      font-weight: bold;
+    }
+    .cursor {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      from, to { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+
+  <!-- The "W_" icon in Webdock Green -->
+  <text x="15" y="45" fill="#26D367" class="text">
+    W<tspan class="cursor">_</tspan>
+  </text>
+  
+  <!-- The "webdock-cli" text in white -->
+  <text x="90" y="45" fill="#FFFFFF" class="text">
+    webdock-cli
+  </text>
+</svg>

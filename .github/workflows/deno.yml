@@ -1,0 +1,36 @@
+# .github/workflows/release.yml
+
+name: Release CLI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.3.5
+      - name: Run the build script
+        run: deno run --allow-env --allow-read --allow-write --allow-net --allow-run ./build.ts
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "binaries/*"
+          tag: ${{ github.ref_name }}
+          generateReleaseNotes: true
+          allowUpdates: true
+ 

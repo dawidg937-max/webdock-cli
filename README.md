@@ -25,6 +25,10 @@ For Windows, run the following command in an administrator PowerShell terminal. 
 irm 'http://cli.vps.webdock.cloud/install/windows.ps1' | iex
 ```
 
+### MacOS
+```macos
+curl -fsSL 'http://cli.vps.webdock.cloud/install/mac.sh' | sudo bash
+```
 
 ## Configuration
 ```bash

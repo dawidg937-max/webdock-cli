@@ -3,6 +3,7 @@
 The official command-line interface for managing your Webdock.io resources.
 
 webdock-cli allows you to manage servers, SSH keys, events, and more directly from your terminal, making it easy to script, automate, and integrate your Webdock infrastructure into your workflows.
+<img src="assets/webdock.gif" alt="Webdock Interactive Mode" style="width:100%;border-radius:10px">
 
 ## Prerequisites
 Before you can use webdock-cli, you need a Webdock API Token.

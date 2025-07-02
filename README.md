@@ -1,8 +1,9 @@
 # Webdock CLI
-<img src="assets/webdock-cli-logo.svg" alt="Webdock CLI Logo" style="width:100%;border-radius:10px">
+
 The official command-line interface for managing your Webdock.io resources.
 
-webdock-cli allows you to manage servers, SSH keys, events, and more directly from your terminal, making it easy to script, automate, and integrate your Webdock infrastructure into your workflows.
+`webdock` allows you to manage servers, SSH keys, events, and more directly from your terminal, making it easy to script, automate, and integrate your Webdock infrastructure into your workflows.
+
 <img src="assets/webdock.gif" alt="Webdock Interactive Mode" style="width:100%;border-radius:10px">
 
 ## Prerequisites
@@ -30,10 +31,7 @@ irm 'http://cli.vps.webdock.cloud/install/windows.ps1' | iex
 ```macos
 curl -fsSL 'http://cli.vps.webdock.cloud/install/mac.sh' | sudo bash
 ```
-
-
----
-
+ 
 ## Table of Contents
 - [init](#init)
 - [account](#account)
@@ -294,3 +292,4 @@ provision, restore-server, change-profile, set-state, delete, backup, set-hostna
 Contributions are welcome! Please feel free to submit a pull request or open an issue to report a bug or suggest a new feature.
 
 
+<img src="assets/webdock-cli-logo.svg" alt="Webdock CLI Logo" style="width:100%;border-radius:10px">

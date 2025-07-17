@@ -61,7 +61,7 @@ export const listCommand = new Command()
 					script.name,
 					script.description || "N/A",
 					script.filename || "N/A",
-					script.content.slice(0, 25) + "....",
+					JSON.stringify(String((script.content.split("\n")[0] ?? "").slice(0,25) ?? "").padEnd(25, "\s"))
 				]),
 			)
 			.border(true).render();

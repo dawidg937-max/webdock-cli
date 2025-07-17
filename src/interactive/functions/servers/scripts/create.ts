@@ -42,15 +42,13 @@ export async function createServerScript(PARENT: () => void, slug: string) {
 	let path = await Input.prompt({
 		message: "Enter deployment path:",
 		validate: (val) =>
-			val.length > 0 && val.startsWith("@")
+			val.length != 0
 				? true
-				: `Hi there, for technical reasons, we need the path to start with a ${colors.bgGreen(" @ ")}\nThe @ will not be included in the path on the remote machine\nso the ${
-					colors.bgGreen.bold.underline("@path/to/script")
-				} will be normalized to be ${colors.bgGreen.bold.underline("/path/to/script")}on the server\n${colors.bgRed.underline.bold("Thanks for you understanding!")}`,
+				: `path is required`,
 		info: true,
 	});
 
-	path = "/" + path.slice(1);
+ 
 	console.log(path);
 
 	// Execution options
@@ -119,7 +117,7 @@ export async function createServerScript(PARENT: () => void, slug: string) {
 			console.error(
 				"💡 Verify:",
 				`- Server slug '${slug}' exists\n` +
-					`- Script ID ${scriptId} is valid`,
+				`- Script ID ${scriptId} is valid`,
 			);
 		}
 		return PARENT();

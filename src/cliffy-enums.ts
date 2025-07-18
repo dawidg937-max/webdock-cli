@@ -1,7 +1,6 @@
 import { EnumType } from "@cliffy/command";
 
 const ProfileSlug = [
-	"webdockpico4-2024",
 	"webdockepyc-nano4",
 	"webdocknano4-2023",
 	"webdockepyc-bit",

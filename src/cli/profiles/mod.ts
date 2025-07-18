@@ -3,7 +3,7 @@ import { Command } from "@cliffy/command";
 // Profiles command module
 export const profilesCommand = new Command()
 	.name("profiles")
-	.description("Manage Locations")
+	.description("Manage Profiles")
 	.default("help")
 	.command(
 		"help",

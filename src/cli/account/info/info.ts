@@ -10,14 +10,16 @@ export const infoCommand = new Command()
 	.option(
 		"-t, --token <token:string>",
 		"API token used for authenticating requests. Required for secure access. Make sure to provide a valid token string.",
-	).option(
-		"--json",
-		"Display the results in a json format instead of a Table",
-		{ conflicts: ["csv"] },
 	)
+	.option("--json", "Display the results in a json format instead of a Table", {
+		conflicts: ["csv"],
+	})
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.action(async (options) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(
+			!options.csv && !options.json,
+			!options.csv && !options.json,
+		);
 		const response = await client.account.info(options.token);
 
 		if (!response.success) {
@@ -28,32 +30,32 @@ export const infoCommand = new Command()
 			const cvsObject: Record<string, unknown> = response.data.body;
 			const keys = Object.keys(cvsObject);
 
-			console.log(stringify([keys.map((key) => cvsObject[key])], {
-				columns: keys,
-				header: true,
-			}));
+			console.log(
+				stringify([keys.map((key) => cvsObject[key])], {
+					columns: keys,
+					header: true,
+				}),
+			);
 			return;
 		}
 
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			return;
 		}
 
 		const user = response.data.body;
-		new Table().header([
-			"ID",
-			"Name",
-			"Email",
-			"Team Leader",
-			"Balance",
-		]).body(
-			[[
-				user.userId.toString(),
-				user.userName,
-				user.userEmail.toString(),
-				user.teamLeader,
-				user.accountBalance,
-			]],
-		).border(true).render();
+		new Table()
+			.header(["ID", "Name", "Email", "Team Leader", "Balance"])
+			.body([
+				[
+					user.userId.toString(),
+					user.userName,
+					user.userEmail.toString(),
+					user.teamLeader,
+					user.accountBalance,
+				],
+			])
+			.border(true)
+			.render();
 	});

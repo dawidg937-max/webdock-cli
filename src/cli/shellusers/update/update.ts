@@ -24,7 +24,7 @@ export const updateCommand = new Command()
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.option("-t, --token <token:string>", "API token for authentication")
 	.action(async (options, slug, id) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 		const response = await client.shellUsers.edit({
 			keys: options.publicKeys || [],
 			slug: slug,
@@ -45,7 +45,7 @@ export const updateCommand = new Command()
 		}
 
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			return;
 		}
 

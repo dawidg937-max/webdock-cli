@@ -24,7 +24,7 @@ export const updateCommand = new Command()
 			filename: string,
 			content: string,
 		) => {
-			const client = new Webdock(!options.csv, !options.csv);
+			const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 			const response = await client.scripts.update({
 				name: name,
 				filename: filename,
@@ -40,7 +40,6 @@ export const updateCommand = new Command()
 			}
 
 			if (options.json) {
-				console.log(response.data);
 				return;
 			}
 			if (options.csv) {

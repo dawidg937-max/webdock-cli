@@ -19,7 +19,7 @@ export const listCommand = new Command()
 	)
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.action(async (options) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 		const response = await client.servers.list(options.token);
 
 		if (!response.success) {
@@ -27,7 +27,7 @@ export const listCommand = new Command()
 			Deno.exit(1);
 		}
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			return;
 		}
 

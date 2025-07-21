@@ -18,7 +18,7 @@ export const listCommand = new Command()
 	)
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.action(async (options) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 
 		const response = await client.scripts.list(options.token);
 		if (!response.success) {
@@ -49,7 +49,7 @@ export const listCommand = new Command()
 		}
 
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			Deno.exit(0);
 		}
 
@@ -61,7 +61,7 @@ export const listCommand = new Command()
 					script.name,
 					script.description || "N/A",
 					script.filename || "N/A",
-					JSON.stringify(String((script.content.split("\n")[0] ?? "").slice(0,25) ?? "").padEnd(25, "\s"))
+					JSON.stringify(String((script.content.split("\n")[0] ?? "").slice(0, 25) ?? "").padEnd(25, "\s")),
 				]),
 			)
 			.border(true).render();

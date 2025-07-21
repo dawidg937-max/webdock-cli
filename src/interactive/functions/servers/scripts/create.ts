@@ -41,14 +41,10 @@ export async function createServerScript(PARENT: () => void, slug: string) {
 
 	let path = await Input.prompt({
 		message: "Enter deployment path:",
-		validate: (val) =>
-			val.length != 0
-				? true
-				: `path is required`,
+		validate: (val) => val.length != 0 ? true : `path is required`,
 		info: true,
 	});
 
- 
 	console.log(path);
 
 	// Execution options
@@ -117,7 +113,7 @@ export async function createServerScript(PARENT: () => void, slug: string) {
 			console.error(
 				"💡 Verify:",
 				`- Server slug '${slug}' exists\n` +
-				`- Script ID ${scriptId} is valid`,
+					`- Script ID ${scriptId} is valid`,
 			);
 		}
 		return PARENT();

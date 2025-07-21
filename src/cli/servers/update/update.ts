@@ -24,7 +24,7 @@ export const updateCommand = new Command()
 			notes,
 			nextActionDate,
 		) => {
-			const client = new Webdock(!options.csv, !options.csv);
+			const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 			const response = await client.servers.update({
 				nextActionDate,
 				name,
@@ -40,7 +40,7 @@ export const updateCommand = new Command()
 			}
 
 			if (options.json) {
-				console.log(response.data);
+				console.log(JSON.stringify(response.data));
 				return;
 			}
 			if (options.csv) {

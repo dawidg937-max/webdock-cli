@@ -16,7 +16,7 @@ export const listCommand = new Command()
 	)
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.action(async (options) => {
-		const api = new Webdock(!options.csv, !options.csv);
+		const api = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 		const response = await api.images.list(options.token);
 		if (!response.success) {
 			Deno.exit(1);
@@ -42,7 +42,7 @@ export const listCommand = new Command()
 		}
 
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			Deno.exit(0);
 		}
 

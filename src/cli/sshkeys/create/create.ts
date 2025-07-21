@@ -15,7 +15,7 @@ export const createCommand = new Command()
 	)
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] }).action(
 		async (options, name: string, publicKey: string) => {
-			const client = new Webdock(!options.csv, !options.csv);
+			const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 			const response = await client.sshkeys.create({
 				name,
 				publicKey,
@@ -27,7 +27,7 @@ export const createCommand = new Command()
 				Deno.exit(1);
 			}
 			if (options.json) {
-				console.log(response.data);
+				console.log(JSON.stringify(response.data));
 				return;
 			}
 			if (options.csv) {

@@ -20,7 +20,7 @@ export const createCommand = new Command()
 	)
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.action(async (options, name, filename, content) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 		const path = await sanitizePath(filename);
 		if (!path) {
 			createCommand.showHelp();
@@ -67,7 +67,7 @@ export const createCommand = new Command()
 			return;
 		}
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			return;
 		}
 

@@ -198,7 +198,7 @@ export class Webdock {
 				headers: {
 					"Authorization": `Bearer ${opts.token}`,
 					"Content-Type": "application/json",
-					'Cache-Control': 'no-cache, no-store, must-revalidate'
+					"Cache-Control": "no-cache, no-store, must-revalidate",
 				},
 				data: opts.body as unknown as T,
 				family: 4,

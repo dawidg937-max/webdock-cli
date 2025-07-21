@@ -18,7 +18,7 @@ export const serverScriptsListCommand = new Command()
 	)
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.action(async (options, serverSlug: string) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 		const response = await client.scripts.listOnServer({
 			token: options.token,
 			serverSlug: serverSlug,
@@ -51,7 +51,7 @@ export const serverScriptsListCommand = new Command()
 			return;
 		}
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			return;
 		}
 		new Table()

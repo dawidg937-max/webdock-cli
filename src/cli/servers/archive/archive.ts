@@ -14,7 +14,7 @@ export const archiveCommand = new Command()
 	)
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.action(async (options, slug) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 		if (!options.force) {
 			const confirmed = await Confirm.prompt(
 				`Are you sure you want to archive server '${slug}'? This will make the server inaccessible.`,

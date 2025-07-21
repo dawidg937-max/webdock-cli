@@ -17,7 +17,7 @@ export const createCommand = new Command()
 	.option("--csv", "Print the result as a CSV", { conflicts: ["json"] })
 	.option("--wait", "Wait until the operation has finished")
 	.action(async (options, serverSlug, username) => {
-		const client = new Webdock(!options.csv, !options.csv);
+		const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 		const response = await client.snapshots.create({
 			name: username,
 			serverSlug,
@@ -35,7 +35,7 @@ export const createCommand = new Command()
 		}
 
 		if (options.json) {
-			console.log(response.data);
+			console.log(JSON.stringify(response.data));
 			return;
 		}
 

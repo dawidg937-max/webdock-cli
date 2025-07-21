@@ -39,7 +39,7 @@ export const serverScriptsCreateCommand = new Command()
 	)
 	.action(
 		async (options, serverSlug: string, scriptId: number, path) => {
-			const client = new Webdock(!options.csv, !options.csv);
+			const client = new Webdock(!options.csv && !options.json, !options.csv && !options.json);
 			const sanitizedPath = await sanitizePath(path);
 			if (!sanitizedPath) {
 				serverScriptsCreateCommand.showHelp();
@@ -64,7 +64,7 @@ export const serverScriptsCreateCommand = new Command()
 			}
 
 			if (options.json) {
-				console.log(response.data);
+				console.log(JSON.stringify(response.data));
 				return;
 			}
 

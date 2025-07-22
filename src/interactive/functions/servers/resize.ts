@@ -7,6 +7,7 @@ import {
 } from "../../goto/options/go-to-server-screen-option.ts";
 import { goToMainMenu } from "../../goto/main-menu.ts";
 import { colors } from "@cliffy/ansi/colors";
+import { getDiskFromCusomProfile } from "../../../utils/get-disk-from-cusom-profile-slug.ts";
 
 export async function resizeServerAction(PARENT: () => void, slug: string) {
   const client = new Webdock(false);
@@ -33,20 +34,27 @@ export async function resizeServerAction(PARENT: () => void, slug: string) {
   // Profile selection with comparison
   const longestName = Math.max(...profiles.data.body.map((p) => p.name.length));
   const currentProfile = profiles.data.body.find((e) => {
-    console.log(
-      e.slug,
-      serverInfo.data.body.profile,
-      e.slug == serverInfo.data.body.profile
-    );
-
     return e.slug == serverInfo.data.body.profile;
   });
+  if (
+    !currentProfile &&
+    isNaN(getDiskFromCusomProfile(serverInfo.data.body.profile ?? ""))
+  ) {
+    console.log(
+      colors.bgRed.italic.bold("Failed to parse custom Profile Disk Size")
+    );
+    console.log(colors.bgRed.italic.bold("Please report this to our support"));
+
+    return PARENT();
+  }
 
   const filteredProfiles = profiles.data.body.filter((e) => {
-    console.log(e.disk, currentProfile?.disk);
+    const disk =
+      currentProfile?.disk ||
+      getDiskFromCusomProfile(serverInfo.data.body.profile ?? "") * 1024;
 
     return (
-      e.disk > (currentProfile?.disk ?? 0) &&
+      e.disk > (disk ?? 0) &&
       e.slug != serverInfo.data.body.profile &&
       ((e.slug.includes("epyc") &&
         serverInfo.data.body.profile?.includes("epyc")) ||

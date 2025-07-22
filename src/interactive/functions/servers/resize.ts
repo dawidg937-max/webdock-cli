@@ -29,12 +29,22 @@ export async function resizeServerAction(PARENT: () => void, slug: string) {
     console.error(profiles.error);
     Deno.exit(1);
   }
+
   // Profile selection with comparison
   const longestName = Math.max(...profiles.data.body.map((p) => p.name.length));
-  const currentProfile = profiles.data.body.find(
-    (e) => e.slug == serverInfo.data.body.profile
-  );
+  const currentProfile = profiles.data.body.find((e) => {
+    console.log(
+      e.slug,
+      serverInfo.data.body.profile,
+      e.slug == serverInfo.data.body.profile
+    );
+
+    return e.slug == serverInfo.data.body.profile;
+  });
+
   const filteredProfiles = profiles.data.body.filter((e) => {
+    console.log(e.disk, currentProfile?.disk);
+
     return (
       e.disk > (currentProfile?.disk ?? 0) &&
       e.slug != serverInfo.data.body.profile &&

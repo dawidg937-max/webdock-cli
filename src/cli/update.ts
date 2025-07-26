@@ -7,10 +7,10 @@ import { Table } from "@cliffy/table";
 function getInstallCommand(os: string): string {
   switch (os) {
     case "linux":
-      return "curl -fsSL 'http://cli.vps.webdock.cloud/install/linux.sh' | sudo bash";
+      return "curl -fsSL 'http://cli-src.webdock.tech/install/linux.sh' | sudo bash";
     case "windows":
       return (
-        "irm 'http://cli.vps.webdock.cloud/install/windows.ps1' | iex" +
+        "irm 'http://cli-src.webdock.tech/install/windows.ps1' | iex" +
         new Table()
           .body([
             [
@@ -23,7 +23,7 @@ function getInstallCommand(os: string): string {
           .toString()
       );
     case "darwin":
-      return "curl -fsSL 'http://cli.vps.webdock.cloud/install/mac.sh' | sudo bash";
+      return "curl -fsSL 'http://cli-src.webdock.tech/install/mac.sh' | sudo bash";
     default:
       return "";
   }

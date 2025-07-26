@@ -16,7 +16,7 @@ You can generate an API token from your Webdock account dashboard in the API Tok
 ### Linux
 You can install webdock-cli using our convenient installer script. It will download the latest binary for your system and place it in /usr/local/bin.
 ```bash
-curl -fsSL 'http://cli.vps.webdock.cloud/install/linux.sh' | sudo bash
+curl -fsSL 'http://cli-src.webdock.tech/install/linux.sh' | sudo bash
 ```
  
 ### Windows (PowerShell)
@@ -24,12 +24,12 @@ For Windows, run the following command in an administrator PowerShell terminal. 
 
  
 ```powershell
-irm 'http://cli.vps.webdock.cloud/install/windows.ps1' | iex
+irm 'http://cli-src.webdock.tech/install/windows.ps1' | iex
 ```
 
 ### MacOS
 ```macos
-curl -fsSL 'http://cli.vps.webdock.cloud/install/mac.sh' | sudo bash
+curl -fsSL 'http://cli-src.webdock.tech/install/mac.sh' | sudo bash
 ```
  
 ## Table of Contents

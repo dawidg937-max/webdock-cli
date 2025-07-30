@@ -1,25 +1,39 @@
 #!/bin/bash
 
+
 set -euo pipefail
-TOOL_URL="https://cli-src.webdock.tech/dl/linux/webdock" 
-APP_NAME="webdock"                                    
+
+ARCH=$(uname -m)
+if [[ "$ARCH" == "x86_64" ]]; then
+    TOOL_URL="https://cli-src.webdock.tech/dl/linux/webdock"
+elif [[ "$ARCH" == "arm64" ]]; then
+    TOOL_URL="https://cli-src.webdock.tech/dl/linux-arm/webdock"
+else
+    echo "Error: Unsupported architecture: $ARCH"
+    echo "This script supports Intel (x86_64) and (arm64) only."
+    exit 1
+fi
+
+APP_NAME="webdock"  
 INSTALL_DIR="/usr/local/bin"
 INSTALL_PATH="$INSTALL_DIR/$APP_NAME"
 
-
 echo "Starting installation of '$APP_NAME'..."
+
+# 1. Check for root/sudo privileges
 if [ "$(id -u)" -ne 0 ]; then
     echo "This script must be run with sudo or as root."
     echo "Please try again with: sudo $0"
     exit 1
 fi
 
-
+# 2. Check for curl dependency
 if ! command -v curl &> /dev/null; then
     echo "Error: curl is not installed. Please install it to continue."
     exit 1
 fi
 
+# 3. Download the binary to the installation path
 echo "Downloading '$APP_NAME' from '$TOOL_URL' to '$INSTALL_PATH'..."
 if ! curl -fsSL "$TOOL_URL" -o "$INSTALL_PATH"; then
     echo "Error: Failed to download the binary. Please check the URL and your connection."
@@ -27,17 +41,17 @@ if ! curl -fsSL "$TOOL_URL" -o "$INSTALL_PATH"; then
 fi
 echo "Download complete."
 
-
+# 4. Make the binary executable
 echo "Setting execute permissions on '$INSTALL_PATH'..."
 if ! chmod +x "$INSTALL_PATH"; then
     echo "Error: Failed to set execute permissions on the file."
-    
+    # Clean up the downloaded file on failure
     rm -f "$INSTALL_PATH"
     exit 1
 fi
 
-
-
+# 5. Verify the directory is in the system's PATH
+# (This is more of a check, as /usr/local/bin is almost always in the PATH)
 if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
     echo ""
     echo "WARNING: The installation directory '$INSTALL_DIR' is not in your system's PATH."

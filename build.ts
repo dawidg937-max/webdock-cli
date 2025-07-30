@@ -5,6 +5,7 @@ const platforms = [
 	{ target: "x86_64-unknown-linux-gnu", suffix: "-linux-x86_64", folder: "" },
 	{ target: "x86_64-apple-darwin", suffix: "-macos", folder: "" },
 	{ target: "aarch64-apple-darwin", suffix: "-macos-arm64", folder: "" },
+	{ target: "aarch64-unknown-linux-gnu", suffix: "-linux-arm64", folder: "" },
 ];
 
 async function build() {
@@ -62,4 +63,4 @@ async function build() {
 }
 
 await build();
-export {};
+export { };

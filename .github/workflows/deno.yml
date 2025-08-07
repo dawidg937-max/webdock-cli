@@ -18,10 +18,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check isTesting configuration
+        run: |
+          if grep -i "isTesting" ./src/test_utils.ts | grep -i "true"; then
+            echo "❌ Error: isTesting is set to true - it should be false for production release"
+            echo "Lines found:"
+            grep -i "isTesting" ./src/test_utils.ts | grep -i "true"
+            exit 1
+          else
+            echo "✅ isTesting is correctly set to false for production release"
+          fi
+
       - name: Set up Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: v2.4.2
+          
       - name: Run the build script
         run: deno run --allow-env --allow-read --allow-write --allow-net --allow-run ./build.ts
 
@@ -33,4 +45,3 @@ jobs:
           tag: ${{ github.ref_name }}
           generateReleaseNotes: true
           allowUpdates: true
- 

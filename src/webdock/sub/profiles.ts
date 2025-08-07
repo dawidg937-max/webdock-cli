@@ -23,6 +23,8 @@ export type ListProfilesResponseType = {
 	body: Profile[];
 };
 
+
+
 export class ProfilesClass {
 	private parent: Webdock;
 	constructor(parent: Webdock) {
@@ -32,11 +34,21 @@ export class ProfilesClass {
 	async list({
 		token = "",
 		locationId = "dk",
+		profileSlug = ""
 	}) {
-		return await this.parent.req<ListProfilesResponseType>({
+
+		const res = await this.parent.req<ListProfilesResponseType>({
 			token: token,
-			endpoint: `/profiles?locationId=${locationId}`,
+			endpoint: `/profiles?locationId=${locationId}&profileSlug=${profileSlug}`,
 			method: "GET",
 		});
+
+		// If the user is asking for one profile, return it as an array any way, not to break compatibility
+		if (res.success == true && !(res.data.body instanceof Array)) res.data.body = [res.data.body]
+
+		return res
+
 	}
 }
+
+

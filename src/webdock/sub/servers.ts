@@ -19,7 +19,7 @@ export type Server = {
 	date: string;
 	location: string;
 	image: string;
-	profile: string | null;
+	profile: string;
 	ipv4: string | null;
 	ipv6: string | null;
 	status: ServerStatus;

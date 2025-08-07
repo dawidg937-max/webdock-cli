@@ -7,7 +7,6 @@ import {
 } from "../../goto/options/go-to-server-screen-option.ts";
 import { goToMainMenu } from "../../goto/main-menu.ts";
 import { colors } from "@cliffy/ansi/colors";
-import { getDiskFromCusomProfile } from "../../../utils/get-disk-from-cusom-profile-slug.ts";
 
 export async function resizeServerAction(PARENT: () => void, slug: string) {
   const client = new Webdock(false);
@@ -33,25 +32,23 @@ export async function resizeServerAction(PARENT: () => void, slug: string) {
 
   // Profile selection with comparison
   const longestName = Math.max(...profiles.data.body.map((p) => p.name.length));
-  const currentProfile = profiles.data.body.find((e) => {
+  let currentProfile = profiles.data.body.find((e) => {
     return e.slug == serverInfo.data.body.profile;
   });
-  if (
-    !currentProfile &&
-    isNaN(getDiskFromCusomProfile(serverInfo.data.body.profile ?? ""))
-  ) {
-    console.log(
-      colors.bgRed.italic.bold("Failed to parse custom Profile Disk Size")
-    );
-    console.log(colors.bgRed.italic.bold("Please report this to our support"));
 
-    return PARENT();
+  if (!currentProfile) {
+    const customProfile = await client.profiles.list({ locationId: serverInfo.data.body.location, profileSlug: serverInfo.data.body.profile ?? "" })
+    if (!customProfile.success || customProfile.data.body.length == 0) {
+      colors.bgRed.italic.bold("Failed to fetch custom Profile Disk Size")
+      return PARENT()
+    }
+    currentProfile = customProfile.data.body[0]
   }
+
 
   const filteredProfiles = profiles.data.body.filter((e) => {
     const disk =
-      currentProfile?.disk ||
-      getDiskFromCusomProfile(serverInfo.data.body.profile ?? "") * 1024;
+      currentProfile?.disk
 
     return (
       e.disk > (disk ?? 0) &&
@@ -74,11 +71,10 @@ export async function resizeServerAction(PARENT: () => void, slug: string) {
     message: "Select new server profile:",
     options: filteredProfiles
       .map((p) => ({
-        name: `${p.name.padEnd(longestName + 2)} | ${p.cpu.cores}C/${
-          p.cpu.threads
-        }vCPU | ${(p.ram / 1024).toFixed(1)}GB RAM | ${(p.disk / 1024).toFixed(
-          1
-        )}GB Disk`,
+        name: `${p.name.padEnd(longestName + 2)} | ${p.cpu.cores}C/${p.cpu.threads
+          }vCPU | ${(p.ram / 1024).toFixed(1)}GB RAM | ${(p.disk / 1024).toFixed(
+            1
+          )}GB Disk`,
         value: p.slug,
       }))
       .concat(addGoToServerScreenOptions(slug)),

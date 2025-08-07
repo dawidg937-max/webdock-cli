@@ -8,6 +8,10 @@ export const listCommand = new Command()
 	.description("List all profiles")
 	.arguments("<locationId:string>")
 	.option(
+		"-p, --profileSlug <profileSlug:string>",
+		"Slug of a the profile, you want to get it's specs",
+	)
+	.option(
 		"-t, --token <token:string>",
 		"API token used for authentication (required for protected endpoints)",
 	)
@@ -23,11 +27,14 @@ export const listCommand = new Command()
 		const response = await api.profiles.list({
 			token: options.token,
 			locationId: locationId,
+			profileSlug: options.profileSlug
 		});
 		if (!response.success) {
 			console.error(response.error);
 			Deno.exit(1);
 		}
+
+
 		if (options.csv) {
 			// deno-lint-ignore no-explicit-any
 			const data = response.data.body.map((item: Record<string, any>) => {
@@ -72,4 +79,6 @@ export const listCommand = new Command()
 			.border(true);
 
 		console.log(table.toString());
+
+
 	});

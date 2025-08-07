@@ -21,15 +21,15 @@ interface Config {
 
 type WebdockApiRequestReturn<T> = Promise<
   | {
-      success: true;
-      data: T;
-    }
+    success: true;
+    data: T;
+  }
   | {
-      success: false;
-      error: string;
-      errorType: "network" | "server";
-      code: number;
-    }
+    success: false;
+    error: string;
+    errorType: "network" | "server";
+    code: number;
+  }
 >;
 interface WebdockApiRequestOptions<T> {
   token?: string;
@@ -154,8 +154,7 @@ export class Webdock {
       await Deno.writeTextFile(configPath, JSON.stringify(config, null, 2));
     } catch (error) {
       console.error(
-        `Error saving config: ${
-          error instanceof Error ? error.message : String(error)
+        `Error saving config: ${error instanceof Error ? error.message : String(error)
         }`
       );
       Deno.exit(1);
@@ -235,8 +234,7 @@ export class Webdock {
       if (this.log) {
         console.error(
           colors.red(
-            `${_getTimestamp()} - ${err.response ? "API" : "Network"} Error${
-              err.response ? ` [${err.response.status}]` : ""
+            `${_getTimestamp()} - ${err.response ? "API" : "Network"} Error${err.response ? ` [${err.response.status}]` : ""
             }: ${err.response ? err.response.statusText : err.message}`
           )
         );

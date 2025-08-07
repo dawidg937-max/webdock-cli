@@ -24,7 +24,7 @@ Deno.test({
 					scriptPath,
 					"hooks",
 					"create",
-					`https://httpstat.us/200?q=${Date.now()}`,
+					`https://addel.vip?q=${Date.now()}`,
 					"--event-type",
 					"provision",
 				],

@@ -28,6 +28,19 @@ jobs:
           else
             echo "✅ isTesting is correctly set to false for production release"
           fi
+      - name: Check cli version matches the release tag
+        run: |
+          # Extract version from tag (keep the 'v' prefix for matching)
+          TAG_VERSION=${GITHUB_REF_NAME}
+          echo "Tag version: $TAG_VERSION"
+          
+          if grep -r "\.version(['\"]$TAG_VERSION['\"])" ./src/; then
+            echo "✅ CLI version $TAG_VERSION found in .version() call"
+          else
+            echo "❌ Error: .version('$TAG_VERSION') not found in source code"
+            echo "Please update your .version() call to match the release tag"
+            exit 1
+          fi
 
       - name: Set up Deno
         uses: denoland/setup-deno@v1

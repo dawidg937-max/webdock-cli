@@ -29,19 +29,8 @@ function getInstallCommand(os: string): string {
   }
 }
 
-function compareVersions(current: string, latest: string): number {
-  const currentParts = current.replace(/^v/, "").split(".").map(Number);
-  const latestParts = latest.replace(/^v/, "").split(".").map(Number);
 
-  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
-    const currentPart = currentParts[i] || 0;
-    const latestPart = latestParts[i] || 0;
-
-    if (currentPart < latestPart) return -1;
-    if (currentPart > latestPart) return 1;
-  }
-  return 0;
-}
+import { compare, parse } from "@std/semver";
 
 export const updateCommand = new Command()
   .description("Check for CLI updates")
@@ -57,7 +46,7 @@ export const updateCommand = new Command()
 
       const latestVersion = res.url.split("/").at(-1) ?? "";
       const currentVersion = cli.getVersion() ?? "";
-      const comparison = compareVersions(currentVersion, latestVersion);
+      const comparison = compare(parse(currentVersion), parse(latestVersion));
 
       if (comparison < 0) {
         console.log(`Update available: ${currentVersion} → ${latestVersion}`);

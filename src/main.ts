@@ -23,7 +23,7 @@ export const client = new Webdock(true);
 
 export const cli = new Command()
   .name("webdock")
-  .version("v0.3.0")
+  .version("v0.3.1")
   .globalType("event-type", eventTypeEnum)
   .globalType("profile", profileEnum)
   .globalType("image", imageEnum)

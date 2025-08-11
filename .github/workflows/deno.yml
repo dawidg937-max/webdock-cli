@@ -5,7 +5,7 @@ name: Release CLI
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build-and-release:
@@ -33,20 +33,18 @@ jobs:
           # Extract version from tag (keep the 'v' prefix for matching)
           TAG_VERSION=${GITHUB_REF_NAME}
           echo "Tag version: $TAG_VERSION"
-          
-          if grep -r "\.version(['\"]$TAG_VERSION['\"])" ./src/; then
+          if grep -iF "version(\"${TAG_VERSION}\")" ./src/main.ts; then
             echo "✅ CLI version $TAG_VERSION found in .version() call"
           else
-            echo "❌ Error: .version('$TAG_VERSION') not found in source code"
+            echo "❌ Error: version(\"${TAG_VERSION}\") not found in source code"
             echo "Please update your .version() call to match the release tag"
             exit 1
           fi
-
       - name: Set up Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: v2.4.2
-          
+
       - name: Run the build script
         run: deno run --allow-env --allow-read --allow-write --allow-net --allow-run ./build.ts
 
